@@ -1,0 +1,27 @@
+"3.3 (created: 2011/11/13 17:32:12)
+
+cnoremap <A-e> <Esc>
+inoremap <A-e> <Esc>
+nnoremap à @
+noremap é :
+noremap c h
+noremap r l
+noremap J T
+noremap l c
+noremap L C
+noremap h r
+noremap H R
+noremap K S
+noremap C H
+noremap R L
+noremap T J
+noremap S K
+noremap j t
+noremap k s
+noremap t 4j
+noremap s 4k
+noremap , ;;
+vnoremap ê <Esc>
+source! "C:\\Documents and Settings\\bhuot\\_vimperatorrc.local"
+
+" vim: set ft=vimperator:

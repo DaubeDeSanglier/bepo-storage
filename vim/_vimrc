@@ -1,0 +1,149 @@
+source $HOME/basic.vim
+
+scriptencoding utf-8
+
+" source the .vimrc file on save to apply changes immediately
+"if has("autocmd")
+"  autocmd! bufwritepost _vimrc source $HOME/_vimrc
+"endif
+
+" To disable a plugin, add it's bundle name to the following list
+let g:pathogen_disabled = []
+
+" for some reason the csscolor plugin is very slow when run on the terminal
+" but not in GVim, so disable it if no GUI is running
+if !has('gui_running')
+    call add(g:pathogen_disabled, 'csscolor')
+endif
+
+call add(g:pathogen_disabled, 'taglist')
+call add(g:pathogen_disabled, 'fuzzyfinder')
+call add(g:pathogen_disabled, 'l9')
+call add(g:pathogen_disabled, 'figlet')
+
+call pathogen#infect()
+
+"""""""""
+
+"set nocompatible
+"syntax enable
+
+"set mouse=a
+set updatecount=0
+set hlsearch
+
+"set encoding=utf-8
+"set fileencoding=utf-8
+if has("multi_byte")
+  if &termencoding == ""
+    let &termencoding = &encoding
+  endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8
+  "setglobal bomb
+  set fileencodings=ucs-bom,utf-8,latin1
+endif
+
+colorscheme evening
+" colorscheme delek
+
+let mapleader=","
+
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+" [HJKL] -> {CTSR}
+noremap c h
+noremap r l
+noremap t j
+noremap s k
+noremap C H
+noremap R L
+noremap T J
+noremap S K
+
+" Corollaire : repli suivant / prÃ©cÃ©dent
+noremap zs zj
+noremap zt zk
+
+" {HJKL} <- [CTSR]
+noremap j t
+noremap J T
+noremap l c
+noremap L C
+noremap h r
+noremap H R
+noremap k s
+noremap K S
+
+" Corollaire : correction orthographique
+noremap ]k ]s
+noremap [k [s
+ 
+" DÃ©sambiguation de {g}
+" ligne Ã©cran prÃ©cÃ©dente / suivante (Ã  l'intÃ©rieur d'une phrase)
+noremap gs gk
+noremap gt gj
+" onglet prÃ©cÃ©dant / suivant
+noremap gb gT
+noremap gÃ© gt
+" optionnel : {gB} / {gÃ} pour aller au premier / dernier onglet
+noremap gB :exe "silent! tabfirst"<CR>
+noremap gÃ :exe "silent! tablast"<CR>
+" optionnel : {g"} pour aller au dÃ©but de la ligne Ã©cran
+noremap g" g0
+
+noremap Ã© :
+noremap é :
+"noremap  <A-e> <Esc>
+"cnoremap <A-e> <C-C>
+"inoremap <A-e> <Esc>
+
+" Pour Python
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrow = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+
+"set expandtab
+"set textwidth=79
+"set tabstop=8
+"set softtabstop=4
+"set shiftwidth=4
+"set autoindent
+":syntax on
+
+" NERDTree parameters
+let NERDTreeMapOpenInTab='<Leader>t'
+let NERDTreeMapOpenVSplit='<Leader>s'
+
+" TagList parameters
+let Tlist_Ctags_Cmd='U:\divers\perso\ctags58\ctags.exe'
+
+" VIM-Latex parameters
+
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+" filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
